@@ -1,0 +1,28 @@
+{
+  "name": "router-state-params",
+  "version": "0.0.0",
+  "description": "Angular 2 router params service",
+  "main": "router-state-params",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stomo21"
+  },
+  "keywords": [
+    "angular",
+    "ng",
+    "ngx",
+    "ng2"
+  ],
+  "author": "davin.ninja",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stomo21"
+  },
+  "homepage": "https://github.com/stomo21",
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
