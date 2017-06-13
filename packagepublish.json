@@ -1,11 +1,11 @@
 {
-  "name": "router-state-params",
-  "version": "0.0.0",
-  "description": "Angular 2 router params service",
+  "name": "ng-router-state-params",
+  "version": "0.0.4",
+  "description": "Angular 2 service to access route parameters across all components",
   "main": "router-state-params",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stomo21"
+    "url": "git+https://github.com/stomo21/ng-router-state-params"
   },
   "keywords": [
     "angular",
@@ -16,9 +16,9 @@
   "author": "davin.ninja",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stomo21"
+    "url": "https://github.com/stomo21/ng-router-state-params"
   },
-  "homepage": "https://github.com/stomo21",
+  "homepage": "https://github.com/stomo21/ng-router-state-params",
   "scripts": {
   },
   "dependencies": {

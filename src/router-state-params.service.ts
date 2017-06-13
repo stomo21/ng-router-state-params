@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 import 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * router state params service
@@ -9,22 +11,40 @@ import 'rxjs/Rx';
  *        constructor(public routerStateService: RouterStateService) { }
  *
  * the may be used in component class or template
- * getRoute() : ActivatedRoute - contains the ActivatedRoute object
- * getUrl() : string - url component, does not include domain
- * getConfig() : object - route config options for the active route (contains title if provided)
- * getParams() : object - all params and values for current route (duplicate names overwritten)
+ * getRoute() : Observable<ActivatedRoute> - contains the ActivatedRoute object
+ * getUrl() : Observable<string> - url component, does not include domain
+ * getConfig() : Observable<object> - route config options for the active route (contains title if provided)
+ * getParams() : Observable<object> - all params and values for current route (duplicate names overwritten)
+ *
+ * getRouteValue() : ActivatedRoute - contains the ActivatedRoute object
+ * getUrlValue() : string - url component, does not include domain
+ * getConfigValue() : object - route config options for the active route (contains title if provided)
+ * getParamsValue() : object - all params and values for current route (duplicate names overwritten)
  */
 @Injectable()
 export class RouterStateParamsService {
-  url: string;
+  url: String;
+  urlSubject: Subject<String>;
+
   route: ActivatedRoute;
+  routeSubject: Subject<ActivatedRoute>;
+
   config: Object;
+  configSubject: Subject<Object>;
+
   params: Object;
+  paramsSubject: Subject<Object>;
 
   constructor(
       private activatedRoute: ActivatedRoute,
       private router: Router
   ) {
+
+    this.urlSubject = new Subject<String>();
+    this.routeSubject = new Subject<ActivatedRoute>();
+    this.configSubject = new Subject<Object>();
+    this.paramsSubject = new Subject<Object>();
+
 
     var allRoutes = [];
 
@@ -48,33 +68,56 @@ export class RouterStateParamsService {
           return allRoutes;
         })
         .subscribe(data => {
-          this.url = router.url;
           this.route = activatedRoute;
+          this.url = router.url;
           this.config = data[data.length-1].config;
 
           this.params = {};
-          for(var i in allRoutes){
-            if(allRoutes[i].params.value){
-              this.params = Object.assign(this.params, allRoutes[i].params.value);
-            }
+          if(allRoutes.length){
+            allRoutes.map( val => {
+              if(val && val.params && val.params.value){
+                this.params = Object.assign(this.params, val.params.value);
+              }
+            });
           }
+
+          this.routeSubject.next(this.route);
+          this.urlSubject.next(this.url);
+          this.configSubject.next(this.config);
+          this.paramsSubject.next(this.params);
         });
   }
 
-
   getRoute(){
-    return this.route || {};
+    return this.routeSubject.asObservable();
   }
 
   getUrl(){
-    return this.url;
+    return this.urlSubject.asObservable();
   }
 
   getConfig(){
-    return this.config || {};
+    return this.configSubject.asObservable();
   }
 
   getParams(){
+    return this.paramsSubject.asObservable();
+  }
+
+
+  getRouteValue(){
+    return this.route || {};
+  }
+
+  getUrlValue(){
+    return this.url;
+  }
+
+  getConfigValue(){
+    return this.config || {};
+  }
+
+  getParamsValue(){
     return this.params;
   }
 }
