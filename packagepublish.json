@@ -1,6 +1,6 @@
 {
   "name": "ng-router-state-params",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Angular 2 service to access route parameters across all components",
   "main": "router-state-params",
   "repository": {

@@ -1,0 +1,5 @@
+inside ng-router-state-params
+npm run build
+cd dist
+update package.json to new version
+npm publish

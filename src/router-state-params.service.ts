@@ -68,7 +68,6 @@ export class RouterStateParamsService {
           return allRoutes;
         })
         .subscribe(data => {
-          console.log("al;ksdjfalskdfjaslkdfj", data);
           this.route = activatedRoute;
           this.url = router.url;
           this.config = data[data.length-1].config;
