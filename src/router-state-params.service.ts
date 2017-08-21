@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 import 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 
 /**
@@ -33,17 +33,17 @@ export class RouterStateParamsService {
   configSubject: Subject<Object>;
 
   params: Object;
-  paramsSubject: Subject<Object>;
+  paramsSubject: BehaviorSubject<Object>;
 
   constructor(
       private activatedRoute: ActivatedRoute,
       private router: Router
   ) {
 
-    this.urlSubject = new Subject<String>();
-    this.routeSubject = new Subject<ActivatedRoute>();
-    this.configSubject = new Subject<Object>();
-    this.paramsSubject = new Subject<Object>();
+    this.urlSubject = new BehaviorSubject<String>(null);
+    this.routeSubject = new BehaviorSubject<ActivatedRoute>(null);
+    this.configSubject = new BehaviorSubject<Object>(null);
+    this.paramsSubject = new BehaviorSubject(null);
 
 
     var allRoutes = [];
@@ -68,6 +68,7 @@ export class RouterStateParamsService {
           return allRoutes;
         })
         .subscribe(data => {
+          console.log("al;ksdjfalskdfjaslkdfj", data);
           this.route = activatedRoute;
           this.url = router.url;
           this.config = data[data.length-1].config;
