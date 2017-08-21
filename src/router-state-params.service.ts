@@ -24,13 +24,13 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class RouterStateParamsService {
   url: String;
-  urlSubject: Subject<String>;
+  urlSubject: BehaviorSubject<String>;
 
   route: ActivatedRoute;
-  routeSubject: Subject<ActivatedRoute>;
+  routeSubject: BehaviorSubject<ActivatedRoute>;
 
   config: Object;
-  configSubject: Subject<Object>;
+  configSubject: BehaviorSubject<Object>;
 
   params: Object;
   paramsSubject: BehaviorSubject<Object>;
