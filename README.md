@@ -63,6 +63,10 @@ ngOnInit() {
     this.routerStateParamsService.getRoute().subscribe( val => {
       console.log("route route", val);
     });
+    
+    this.routerStateParamsService.getPath().subscribe( val => {
+       console.log("current path", val);
+   });
   }
 
 ````
@@ -108,6 +112,32 @@ routerStateParamsService.getParams() // will contain :page part of your url {pag
 
 ````
 
+### Is Active Path
+Use isActivePath(path, exact) to test if a path is active. Useful for programmatically generating breadcrumbs. 
+Pass in true for an exact path match. You should use the route config params in your path. For example, :projectId. If you 
+need to use your own parsing functions, subscribe to getPath(). It will return a string of the active path.
+````javascript
+// current url project/123
+this.routerStateParams.isActivePath("project"); // true
+this.routerStateParams.isActivePath("project", true); // false
+this.routerStateParams.isActivePath("project/:projectId"); // true
+this.routerStateParams.isActivePath("project/:projectId", true); // true
+this.routerStateParams.isActivePath("project/:projectId/campaign"); // false
+this.routerStateParams.isActivePath("project/:projectId/campaign", true); // false
+this.routerStateParams.isActivePath("project/:projectId/campaign/:campaignId"); // false
+this.routerStateParams.isActivePath("project/:projectId/campaign/:campaignId", true); // false
+// 
+//
+// current url project/123/campaign/456
+this.routerStateParams.isActivePath("project"); // true
+this.routerStateParams.isActivePath("project", true); // false
+this.routerStateParams.isActivePath("project/:projectId"); // true
+this.routerStateParams.isActivePath("project/:projectId", true); // false
+this.routerStateParams.isActivePath("project/:projectId/campaign"); // true
+this.routerStateParams.isActivePath("project/:projectId/campaign", true); // false
+this.routerStateParams.isActivePath("project/:projectId/campaign/:campaignId"); // true
+this.routerStateParams.isActivePath("project/:projectId/campaign/:campaignId", true); // true
+````
 
 # License
 
