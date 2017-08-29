@@ -15,16 +15,21 @@ import { Observable } from 'rxjs/Observable';
  * getUrl() : Observable<string> - url component, does not include domain
  * getConfig() : Observable<object> - route config options for the active route (contains title if provided)
  * getParams() : Observable<object> - all params and values for current route (duplicate names overwritten)
+ * getPath() : Observable<string> - returns the active path string
  *
  * getRouteValue() : ActivatedRoute - contains the ActivatedRoute object
  * getUrlValue() : string - url component, does not include domain
  * getConfigValue() : object - route config options for the active route (contains title if provided)
  * getParamsValue() : object - all params and values for current route (duplicate names overwritten)
+ * getPathValue() : string - active path
  */
 @Injectable()
 export class RouterStateParamsService {
   url: String;
   urlSubject: BehaviorSubject<String>;
+
+  path: String;
+  pathSubject: BehaviorSubject<String>;
 
   route: ActivatedRoute;
   routeSubject: BehaviorSubject<ActivatedRoute>;
@@ -41,6 +46,7 @@ export class RouterStateParamsService {
   ) {
 
     this.urlSubject = new BehaviorSubject<String>(null);
+    this.pathSubject = new BehaviorSubject<String>(null);
     this.routeSubject = new BehaviorSubject<ActivatedRoute>(null);
     this.configSubject = new BehaviorSubject<Object>(null);
     this.paramsSubject = new BehaviorSubject(null);
@@ -72,15 +78,20 @@ export class RouterStateParamsService {
           this.url = router.url;
           this.config = data[data.length-1].config;
 
+          let paths = [];
           this.params = {};
           if(allRoutes.length){
             allRoutes.map( val => {
               if(val && val.params && val.params.value){
                 this.params = Object.assign(this.params, val.params.value);
               }
+              if(val && val.config && val.config.path){
+                  paths.push(val.config.path);
+              }
             });
           }
 
+          this.path = paths.join("/");
           this.routeSubject.next(this.route);
           this.urlSubject.next(this.url);
           this.configSubject.next(this.config);
@@ -90,6 +101,10 @@ export class RouterStateParamsService {
 
   getRoute(){
     return this.routeSubject.asObservable();
+  }
+
+  getPath(){
+      return this.pathSubject.asObservable();
   }
 
   getUrl(){
@@ -109,6 +124,10 @@ export class RouterStateParamsService {
     return this.route || {};
   }
 
+  getPathValue(){
+      return this.path || "";
+  }
+
   getUrlValue(){
     return this.url;
   }
@@ -120,4 +139,19 @@ export class RouterStateParamsService {
   getParamsValue(){
     return this.params;
   }
+
+   isActivePath(path: string, exact: boolean) {
+        if(this.path){
+            if(exact){
+                if(path == this.path || path == "/"+this.path){
+                    return true;
+                }
+            }else{
+                if(this.path.indexOf(path) === 0 || ("/"+this.path).indexOf(path) === 0){
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
 }
