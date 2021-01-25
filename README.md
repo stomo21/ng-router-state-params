@@ -1,7 +1,7 @@
-## Angular 2 Router Params Service
+## Angular Router Params Service
 
 Angular RouterModule only passes data to the active component. If you need access to the route and route params in
-other components, this service can help.
+other components, this service can help. Get the ActivatedRoute full route params.
 
 ### Quick Start
 
