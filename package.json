@@ -64,7 +64,7 @@
     "jasmine-core": "^3.6.0",
     "jasmine-spec-reporter": "^6.0.0",
     "json-loader": "^0.5.7",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "null-loader": "4.0.1",
     "postcss-loader": "^4.2.0",
     "protractor": "^7.0.0",
